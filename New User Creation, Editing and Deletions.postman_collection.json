@@ -1,0 +1,876 @@
+{
+	"info": {
+		"_postman_id": "4abf9317-6985-4768-92a6-ca266d9b739e",
+		"name": "New User Creation, Editing and Deletions",
+		"description": "New User Creation, Editing and Deletions. Run sequentially.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29511143"
+	},
+	"item": [
+		{
+			"name": "PM login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.environment.set(\"TOKEN\", pm.response.json().token)\r",
+							"pm.environment.set(\"refreshTOKEN\", pm.response.json().refreshToken)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{username}}\",\"password\":\"{{password}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user-ms/user/by-user-id/v1/mitel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Referer",
+						"value": "https://10.211.62.21:9011/",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "authorization",
+						"type": "text"
+					},
+					{
+						"key": "Origin",
+						"value": "https://10.211.62.21:9011/",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/by-user-id/v1/{{username}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"by-user-id",
+						"v1",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user-ms/user/v1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1?importedFrom=All&search=*&pageno=1&pageSize=200&orderby=userId asc",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "importedFrom",
+							"value": "All"
+						},
+						{
+							"key": "search",
+							"value": "*"
+						},
+						{
+							"key": "pageno",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "200"
+						},
+						{
+							"key": "orderby",
+							"value": "userId asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{userId0}}\",\r\n    \"firstName\": \"ramesh\",\r\n    \"lastName\": \"kumar1874\",\r\n    \"newPassword\": \"Mitel@123\",\r\n    \"altFirstNames\": [],\r\n    \"altLastNames\": [],\r\n    \"keyWords\": [],\r\n    \"emailAddress\": \"kumar43@mitel.com\",\r\n    \"departmentIds\": [\r\n        \"1\"\r\n    ],\r\n    \"extensions\": [],\r\n    \"useLastSelection\": true,\r\n    \"language\": \"en\",\r\n    \"sms\": \"874512511\",\r\n    \"udf1\": \"\",\r\n    \"udf2\": \"\",\r\n    \"udf3\": \"\",\r\n    \"udf4\": \"\",\r\n    \"udf5\": \"\",\r\n    \"udf6\": \"\",\r\n    \"udf7\": \"\",\r\n    \"udf8\": \"\",\r\n    \"udf9\": \"\",\r\n    \"udf10\": \"\",\r\n    \"udf11\": \"\",\r\n    \"udf12\": \"\",\r\n    \"udf13\": \"\",\r\n    \"udf14\": \"\",\r\n    \"udf15\": \"\",\r\n    \"udf16\": \"\",\r\n    \"udf17\": \"\",\r\n    \"udf18\": \"\",\r\n    \"udf19\": \"\",\r\n    \"udf20\": \"\",\r\n    \"udf21\": \"\",\r\n    \"udf22\": \"\",\r\n    \"udf23\": \"\",\r\n    \"udf24\": \"\",\r\n    \"udf25\": \"\",\r\n    \"udf26\": \"\",\r\n    \"udf27\": \"\",\r\n    \"udf28\": \"\",\r\n    \"udf29\": \"\",\r\n    \"udf30\": \"\",\r\n    \"udf31\": \"\",\r\n    \"udf32\": \"\",\r\n    \"udf33\": \"9880345873\",\r\n    \"udf34\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{userId1}}\",\r\n    \"firstName\": \"ramesh\",\r\n    \"lastName\": \"kumar2\",\r\n    \"newPassword\": \"Mitel@123\",\r\n    \"altFirstNames\": [],\r\n    \"altLastNames\": [],\r\n    \"keyWords\": [],\r\n    \"emailAddress\": \"kumar4@mitel.com\",\r\n    \"departmentIds\": [\r\n        \"1\"\r\n    ],\r\n    \"extensions\": [],\r\n    \"useLastSelection\": true,\r\n    \"language\": \"en\",\r\n    \"sms\": \"8745125\",\r\n    \"udf1\": \"\",\r\n    \"udf2\": \"\",\r\n    \"udf3\": \"\",\r\n    \"udf4\": \"\",\r\n    \"udf5\": \"\",\r\n    \"udf6\": \"\",\r\n    \"udf7\": \"\",\r\n    \"udf8\": \"\",\r\n    \"udf9\": \"\",\r\n    \"udf10\": \"\",\r\n    \"udf11\": \"\",\r\n    \"udf12\": \"\",\r\n    \"udf13\": \"\",\r\n    \"udf14\": \"\",\r\n    \"udf15\": \"\",\r\n    \"udf16\": \"\",\r\n    \"udf17\": \"\",\r\n    \"udf18\": \"\",\r\n    \"udf19\": \"\",\r\n    \"udf20\": \"\",\r\n    \"udf21\": \"\",\r\n    \"udf22\": \"\",\r\n    \"udf23\": \"\",\r\n    \"udf24\": \"\",\r\n    \"udf25\": \"\",\r\n    \"udf26\": \"\",\r\n    \"udf27\": \"\",\r\n    \"udf28\": \"\",\r\n    \"udf29\": \"\",\r\n    \"udf30\": \"\",\r\n    \"udf31\": \"\",\r\n    \"udf32\": \"\",\r\n    \"udf33\": \"9889345823\",\r\n    \"udf34\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let responseData=pm.response.json();\r",
+							"pm.environment.set(\"userRecId\", responseData.items[1].userRecId)\r",
+							"pm.environment.set(\"userId0\", responseData.items[0].userId)\r",
+							"pm.environment.set(\"userId1\", responseData.items[1].userId)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1?importedFrom=All&search=*&pageno=1&pageSize=200&orderby=userId asc",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "importedFrom",
+							"value": "All"
+						},
+						{
+							"key": "search",
+							"value": "*"
+						},
+						{
+							"key": "pageno",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "200"
+						},
+						{
+							"key": "orderby",
+							"value": "userId asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editing user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{userId1}}\",\r\n    \"firstName\": \"ramefsh\",\r\n    \"lastName\": \"{{userId1}}\",\r\n    \"altFirstNames\": [],\r\n    \"altLastNames\": [],\r\n    \"keyWords\": [],\r\n    \"emailAddress\": \"kumar14@mitel.com\",\r\n    \"departmentIds\": [\r\n        1\r\n    ],\r\n    \"extensions\": [],\r\n    \"useLastSelection\": true,\r\n    \"language\": \"en-US\",\r\n    \"sms\": \"87451253\",\r\n    \"udf1\": \"\",\r\n    \"udf2\": \"\",\r\n    \"udf3\": \"\",\r\n    \"udf4\": \"\",\r\n    \"udf5\": \"\",\r\n    \"udf6\": \"\",\r\n    \"udf7\": \"\",\r\n    \"udf8\": \"\",\r\n    \"udf9\": \"\",\r\n    \"udf10\": \"\",\r\n    \"udf11\": \"\",\r\n    \"udf12\": \"\",\r\n    \"udf13\": \"\",\r\n    \"udf14\": \"\",\r\n    \"udf15\": \"\",\r\n    \"udf16\": \"\",\r\n    \"udf17\": \"\",\r\n    \"udf18\": \"\",\r\n    \"udf19\": \"\",\r\n    \"udf20\": \"\",\r\n    \"udf21\": \"\",\r\n    \"udf22\": \"\",\r\n    \"udf23\": \"\",\r\n    \"udf24\": \"\",\r\n    \"udf25\": \"\",\r\n    \"udf26\": \"\",\r\n    \"udf27\": \"\",\r\n    \"udf28\": \"\",\r\n    \"udf29\": \"\",\r\n    \"udf30\": \"\",\r\n    \"udf31\": \"\",\r\n    \"udf32\": \"\",\r\n    \"udf33\": \"9889345823\",\r\n    \"udf34\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1/{{userRecId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1",
+						"{{userRecId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1/{{userId0}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1",
+						"{{userId0}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user-ms/user/v1/{{userId1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user-ms",
+						"user",
+						"v1",
+						"{{userId1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create CMG subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subsystemType\": \"CMGServer\",\r\n    \"subsystemName\": \"CMG\",\r\n    \"location\": \"1\",\r\n    \"cmgServer\": {\r\n        \"useHttps\": false,\r\n        \"version\": \"080005\",\r\n        \"cmgServerIPOrFQDNAddress\": \"12.25.26.35\",\r\n        \"cmgServerPort\": \"80\",\r\n        \"cmgUserId\": \"dey\",\r\n        \"cmgUserPassword\": \"Mitel@123\",\r\n        \"isDepartmentStructureMultipleroot\": true,\r\n        \"ivr\": true,\r\n        \"voicemail\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create SIP-DECT subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"subsystemType\":\"SIPDECTManager\",\"subsystemName\":\"SIP-DECT\",\"location\":\"1\",\"sipDectManager\":{\"miVoiceMXONESubsystem\":\"SNM\",\"useHttps\":true,\"subscription\":false,\"version\":\"090002\",\"multiOpenMobilityManager\":false,\"ipOrFQDNaddress\":\"87.87.58.26\",\"resiliencyIPAddress\":\"\",\"port\":\"443\",\"axiPort\":\"12622\",\"password\":\"Mitel@123\",\"userID\":\"dey\"}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create test management subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"subsystemType\":\"Othermgmtapplication\",\"subsystemName\":\"Test Management\",\"location\":\"1\",\"otherMgmtApplication\":{\"urlToOtherMgmtApplications\":\"85.24.23.32\"}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create All subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let responseData=pm.response.json();\r",
+							"pm.environment.set(\"subsystemIdCMG\", responseData[1].subsystemId)\r",
+							"pm.environment.set(\"subsystemIdSIP-DECT\", responseData[2].subsystemId)\r",
+							"pm.environment.set(\"subsystemIdTestMgmt\", responseData[3].subsystemId)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1?subsystemType=All",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "subsystemType",
+							"value": "All"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete CMG subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdCMG}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1",
+						"{{subsystemIdCMG}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete SIP-DECT subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdSIP-DECT}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1",
+						"{{subsystemIdSIP-DECT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Test Mgmt subsystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdTestMgmt}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1",
+						"{{subsystemIdTestMgmt}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
