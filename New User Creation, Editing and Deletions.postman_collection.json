@@ -18,6 +18,9 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.environment.set(\"TOKEN\", pm.response.json().token)\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);\r",
+							"});\r",
 							"pm.environment.set(\"refreshTOKEN\", pm.response.json().refreshToken)"
 						],
 						"type": "text/javascript",
@@ -51,70 +54,6 @@
 					"path": [
 						"auth",
 						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/user-ms/user/by-user-id/v1/mitel",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Referer",
-						"value": "https://10.211.62.21:9011/",
-						"type": "text"
-					},
-					{
-						"key": "Access-Control-Request-Headers",
-						"value": "authorization",
-						"type": "text"
-					},
-					{
-						"key": "Origin",
-						"value": "https://10.211.62.21:9011/",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{base_url}}/user-ms/user/by-user-id/v1/{{username}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"user-ms",
-						"user",
-						"by-user-id",
-						"v1",
-						"{{username}}"
 					]
 				}
 			},
@@ -688,19 +627,30 @@
 			"response": []
 		},
 		{
-			"name": "create All subsystems",
+			"name": "view All subsystems",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
+							"// Fixed accessing the correct response data object and added index check\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"let responseData=pm.response.json();\r",
-							"pm.environment.set(\"subsystemIdCMG\", responseData[1].subsystemId)\r",
-							"pm.environment.set(\"subsystemIdSIP-DECT\", responseData[2].subsystemId)\r",
-							"pm.environment.set(\"subsystemIdTestMgmt\", responseData[3].subsystemId)"
+							"if(responseData.length > 0){\r",
+							"    pm.environment.set(\"subsystemIdSNM\", responseData[0].subsystemId)\r",
+							"}\r",
+							"if(responseData.length > 1){\r",
+							"    pm.environment.set(\"subsystemIdCMG\", responseData[1].subsystemId)\r",
+							"}\r",
+							"if(responseData.length > 2){\r",
+							"    pm.environment.set(\"subsystemIdSIP-DECT\", responseData[2].subsystemId)\r",
+							"}\r",
+							"if(responseData.length > 3){\r",
+							"    pm.environment.set(\"subsystemIdTestMgmt\", responseData[3].subsystemId)\r",
+							"}\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -735,6 +685,112 @@
 							"key": "subsystemType",
 							"value": "All"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update SNM Subsystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 207\", function () {\r",
+							"    pm.response.to.have.status(207);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"subsystemType\":\"TelephonyServer\",\"subsystemName\":\"SNM\",\"location\":\"1\",\"mxoneSubsystem\":{\"useHttps\":false,\"version\":\"070800\",\"ipOrFQDNAddress\":\"10.211.62.21\",\"port\":\"80\",\"userId\":\"dey\",\"password\":\"{>[<]}\",\"terminalPassword\":\"\",\"ipPhoneServerUrl\":\"1.25.32.39\",\"ipPhoneServerOrDomainFolder\":\"\",\"cmgPbxId\":null}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdSNM}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1",
+						"{{subsystemIdSNM}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update SNM Subsystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 207\", function () {\r",
+							"    pm.response.to.have.status(207);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"subsystemType\":\"TelephonyServer\",\"subsystemName\":\"SNM\",\"location\":\"1\",\"mxoneSubsystem\":{\"useHttps\":false,\"version\":\"070800\",\"ipOrFQDNAddress\":\"10.211.62.21\",\"port\":\"80\",\"userId\":\"dey\",\"password\":\"{>[<]}\",\"terminalPassword\":\"\",\"ipPhoneServerUrl\":\"\",\"ipPhoneServerOrDomainFolder\":\"\",\"cmgPbxId\":null}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdSNM}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"system-ms",
+						"subsystem",
+						"v1",
+						"{{subsystemIdSNM}}"
 					]
 				}
 			},
