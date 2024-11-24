@@ -697,8 +697,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 207\", function () {\r",
-							"    pm.response.to.have.status(207);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -721,7 +721,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"subsystemType\":\"TelephonyServer\",\"subsystemName\":\"SNM\",\"location\":\"1\",\"mxoneSubsystem\":{\"useHttps\":false,\"version\":\"070800\",\"ipOrFQDNAddress\":\"10.211.62.21\",\"port\":\"80\",\"userId\":\"dey\",\"password\":\"{>[<]}\",\"terminalPassword\":\"\",\"ipPhoneServerUrl\":\"1.25.32.39\",\"ipPhoneServerOrDomainFolder\":\"\",\"cmgPbxId\":null}}",
+					"raw": "{\"subsystemType\":\"Othermgmtapplication\",\"subsystemName\":\"Test Management\",\"location\":\"1\",\"otherMgmtApplication\":{\"urlToOtherMgmtApplications\":\"85.124.23.32\"}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -729,7 +729,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdSNM}}",
+					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdTestMgmt}}",
 					"host": [
 						"{{base_url}}"
 					],
@@ -737,60 +737,7 @@
 						"system-ms",
 						"subsystem",
 						"v1",
-						"{{subsystemIdSNM}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update SNM Subsystem",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 207\", function () {\r",
-							"    pm.response.to.have.status(207);\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"subsystemType\":\"TelephonyServer\",\"subsystemName\":\"SNM\",\"location\":\"1\",\"mxoneSubsystem\":{\"useHttps\":false,\"version\":\"070800\",\"ipOrFQDNAddress\":\"10.211.62.21\",\"port\":\"80\",\"userId\":\"dey\",\"password\":\"{>[<]}\",\"terminalPassword\":\"\",\"ipPhoneServerUrl\":\"\",\"ipPhoneServerOrDomainFolder\":\"\",\"cmgPbxId\":null}}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/system-ms/subsystem/v1/{{subsystemIdSNM}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"system-ms",
-						"subsystem",
-						"v1",
-						"{{subsystemIdSNM}}"
+						"{{subsystemIdTestMgmt}}"
 					]
 				}
 			},
